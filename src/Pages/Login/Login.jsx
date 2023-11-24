@@ -25,13 +25,13 @@ const Login = () => {
     const form = new FormData(e.currentTarget);
     const email = form.get("email");
     const password = form.get("password");
-    console.log(email, password);
+    // console.log(email, password);
 
     setLoggedError("");
 
     signInUser(email, password)
       .then((result) => {
-        console.log(result.user);
+        // console.log(result.user);
         e.target.reset();
         const displayErrorToast = () => {
           toast.dismiss("error-toast");
@@ -64,7 +64,7 @@ const Login = () => {
     e.preventDefault();
     signUpWithGoogle()
       .then((result) => {
-        console.log(result.user);
+        // console.log(result.user);
         const userInfo = {
             email: result.user?.email,
             name: result.user?.displayName,

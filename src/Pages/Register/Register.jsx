@@ -56,7 +56,7 @@ const Register = () => {
 
           axiosPublic.post("/users", userInfo).then((res) => {
             if (res.data.insertedId) {
-              console.log("user added database");
+              // console.log("user added database");
             }
           });
         });
@@ -99,7 +99,7 @@ const Register = () => {
     e.preventDefault();
     signUpWithGoogle()
       .then((result) => {
-        console.log(result.user);
+        // console.log(result.user);
         const userInfo = {
             email: result.user?.email,
             name: result.user?.displayName,
