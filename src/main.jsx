@@ -37,29 +37,33 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile></Profile>,
+        element: <PrivateRoute><Profile></Profile></PrivateRoute>,
       },
       {
         path: "/myNews",
-        element: <MyNews></MyNews>,
+        element: <PrivateRoute><MyNews></MyNews></PrivateRoute>,
       },
       {
         path: "/addNews",
-        element: <AddNews></AddNews>,
+        element: <PrivateRoute><AddNews></AddNews></PrivateRoute>,
       },
       {
         path: "/subscription",
-        element: <Subscription></Subscription>,
+        element: <PrivateRoute><Subscription></Subscription></PrivateRoute>,
+      },
+      {
+        path: "/premium",
+        element: <PrivateRoute><Premium></Premium></PrivateRoute>,
       },
     ],
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    element: <AdminRoute><Dashboard></Dashboard></AdminRoute>,
     children: [
       {
         path: "allUsers",
-        element: <Users></Users>,
+        element: <Users></Users>
       },
       {
         path: "newses",
@@ -77,6 +81,9 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import AdminRoute from "./Routes/AdminRoute";
+import PrivateRoute from "./Routes/PrivateRoute";
+import Premium from "./Pages/Premium/Premium";
 
 const queryClient = new QueryClient();
 

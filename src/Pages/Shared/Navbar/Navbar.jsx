@@ -3,12 +3,14 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/Anolipi-Logo.webp";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import './Navbar.css'
+import useAdmin from "../../../Hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [isAdmin] = useAdmin()
   const navigate = useNavigate();
 
-  console.log(user);
+  // console.log(user);
 
   const handelSignOut = async () => {
     try {
@@ -36,7 +38,7 @@ const Navbar = () => {
     <nav className="flex gap-3 md:gap-4 lg:gap-10 lg:text-xl text-[18px]">
       <NavLink to="/">Home</NavLink>
       <NavLink to="/news">News</NavLink>
-      <NavLink to="/dashboard">Dashboard</NavLink>
+      { user && isAdmin ? <NavLink to="/dashboard">Dashboard</NavLink> : null}
       { user ? <NavLink to="/addNews">Add News</NavLink> : null}
       { user ? <NavLink to="/myNews">My News</NavLink>: null}
 

@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
   const [user, SetUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const axiosPublic = useAxiosPublic()
+  const axiosPublic = useAxiosPublic();
 
   const provider = new GoogleAuthProvider();
 
@@ -54,19 +54,18 @@ const AuthProvider = ({ children }) => {
       SetUser(currentUser);
       if (currentUser) {
         //get token and store client
-        const userInfo = {email: currentUser.email}
-        axiosPublic.post('/jwt', userInfo)
-        .then(res => {
-          if(res.data.token){
-            localStorage.setItem('access-token', res.data.token)
+        const userInfo = { email: currentUser.email };
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+            setLoading(false)
           }
-        })
-      }
-      else {
+        });
+      } else {
         //remove token(if token stored in client side)
-        localStorage.removeItem('access-token')
+        localStorage.removeItem("access-token");
+        setLoading(false);
       }
-      setLoading(false);
     });
     return () => {
       unSubscribe();
