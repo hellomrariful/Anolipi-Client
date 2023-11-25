@@ -31,7 +31,7 @@ const Login = () => {
 
     signInUser(email, password)
       .then((result) => {
-        // console.log(result.user);
+        console.log(result.user);
         e.target.reset();
         const displayErrorToast = () => {
           toast.dismiss("error-toast");
