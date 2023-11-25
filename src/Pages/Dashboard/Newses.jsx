@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import moment from "moment";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Newses = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: newses = [] } = useQuery({
+  const { data: newses = [], refetch } = useQuery({
     queryKey: ["newses"],
     queryFn: async () => {
       const res = await axiosSecure.get("/newses");
@@ -14,10 +15,49 @@ const Newses = () => {
     },
   });
 
-  const itemsPerPage = 5;
-  const allNews = Array.from({ length: newses.length }, (_, i) => i + 1);
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/newses/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
+  const handleApprove = () => {
+    setIsDetailsVisible(false);
+  };
+  const handlePremium = () => {
+    setIsDetailsVisible(false);
+  };
+  const handleDecline = () => {
+    setIsDetailsVisible(false);
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedNews, setSelectedNews] = useState(null);
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+
+  const detailsButtonRef = useRef(null);
+
+  const itemsPerPage = 5;
+  const allNews = Array.from({ length: newses.length }, (_, i) => i + 1);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -25,6 +65,11 @@ const Newses = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleDetailsClick = (newsId) => {
+    setSelectedNews(newsId);
+    setIsDetailsVisible(true);
   };
 
   return (
@@ -93,14 +138,48 @@ const Newses = () => {
                   </td>
                   <td className="px-8 py-4">
                     <button
+                      onClick={() => handleDetailsClick(news._id)}
                       type="button"
                       title="Open details"
-                      className="rounded-full text-black font-extrabold hover:bg-slate-400 dark:text-gray-600 p-2  hover:dark:bg-gray-700 focus:dark:bg-gray-700"
+                      className="rounded-full text-black font-extrabold hover:bg-slate-400 dark:text-gray-600 p-2 hover:dark:bg-gray-700 focus:dark:bg-gray-700"
+                      ref={detailsButtonRef}
                     >
                       <svg viewBox="0 0 24 24" className="w-6 h-5 fill-current">
                         <path d="M12 6a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm-2 6a2 2 0 104 0 2 2 0 00-4 0z"></path>
                       </svg>
                     </button>
+                    {selectedNews === news._id && isDetailsVisible && (
+                      <div className="grid gap-2">
+                        <button
+                          type="button"
+                          className="px-2 py-1 bg-green-500 text-white rounded-md"
+                          onClick={() => handleApprove()}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          type="button"
+                          className="px-2 py-1 bg-green-500 text-white rounded-md"
+                          onClick={() => handlePremium()}
+                        >
+                          Premium
+                        </button>
+                        <button
+                          type="button"
+                          className="px-2 py-1 bg-red-500 text-white rounded-md"
+                          onClick={() => handleDecline()}
+                        >
+                          Decline
+                        </button>
+                        <button
+                          type="button"
+                          className="px-2 py-1 bg-gray-500 text-white rounded-md"
+                          onClick={() => handleDelete(news._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );
@@ -108,8 +187,9 @@ const Newses = () => {
           </tbody>
         </table>
 
-        {/* page */}
-        <nav className="flex px-6 items-center flex-column flex-wrap md:flex-row justify-between pt-4"
+        {/* pagination */}
+        <nav
+          className="flex px-6 items-center flex-column flex-wrap md:flex-row justify-between pt-4"
           aria-label="Table navigation"
         >
           <div>
@@ -138,14 +218,16 @@ const Newses = () => {
                 </Link>
               )
             )}
-            <Link><button
+            <Link>
+              <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={
                   currentPage === Math.ceil(newses.length / itemsPerPage)
                 }
               >
                 Next
-              </button></Link>
+              </button>
+            </Link>
           </ul>
         </nav>
       </div>
