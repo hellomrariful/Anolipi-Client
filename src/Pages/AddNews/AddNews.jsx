@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const image_hosting_key = import.meta.env.VITE_image_hosting_key;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
+
 const AddNews = () => {
+  const {user} = useContext(AuthContext)
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPublisher, setSelectedPublisher] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -36,7 +41,6 @@ const AddNews = () => {
   };
 
   // publisher
-
   const { data: publishers = [] } = useQuery({
     queryKey: ["publishers"],
     queryFn: async () => {
@@ -63,8 +67,22 @@ const AddNews = () => {
     const photo = form.get("photo");
 
     if (!selectedPublisher) {
-      alert("Please select a publisher");
-      return;
+      const displayErrorToast = () => {
+        toast.dismiss("error-toast");
+        toast.error("Please select your Publisher", {
+          id: "error-toast",
+          duration: 2000,
+          style: {
+            padding: "14px",
+            color: "#000000",
+          },
+          iconTheme: {
+            primary: "#ff0033",
+            secondary: "#FFFFFF",
+          },
+        });
+      };
+      displayErrorToast();
     }
 
     // image upload to imgbb and then get an url
@@ -89,21 +107,25 @@ const AddNews = () => {
           publisherName: selectedPublisher.name,
           publisherPhoto: selectedPublisher.photo,
           tags,
+          date: new Date(),
+          authorName: user.displayName,
+          authorEmail: user.email,
+          authorPhoto: user.photoURL
         };
 
-        axiosPublic.post('/newses', newsInfo)
-        .then(res => {
+        axiosPublic.post("/newses", newsInfo).then((res) => {
           console.log(res.data);
-          if(res.data.insertedId){
+          // e.target.reset();
+          if (res.data.insertedId) {
             Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: `is an Admin Now!`,
-                showConfirmButton: false,
-                timer: 1500
-              });
-        }
-        })
+              position: "top-end",
+              icon: "success",
+              title: `is an Admin Now!`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
 
         console.log("News Info:", newsInfo);
       } catch (error) {
@@ -290,7 +312,7 @@ const AddNews = () => {
               </div>
             </div>
             <div className="px-4 py-2 bg-white rounded-b-lg dark:bg-gray-800">
-              <label className="sr-only">Publish post</label>
+              <label className="sr-only cursor-pointer">Publish post</label>
               <textarea
                 id="editor"
                 name="description"
@@ -402,12 +424,13 @@ const AddNews = () => {
           {/* input */}
           <div>
             <input
-              className="flex justify-center mx-auto mt-10 items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 w-full "
+              className="flex justify-center mx-auto mt-10 items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 w-full cursor-pointer"
               type="submit"
               value="Publish Post"
             />
           </div>
         </div>
+        <Toaster position="top-center" reverseOrder={true}></Toaster>
       </div>
     </form>
   );

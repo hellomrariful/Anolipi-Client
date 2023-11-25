@@ -111,7 +111,7 @@ const Dashboard = () => {
       </div>
 
       {/* sidebar right */}
-      <div className=" col-span-2 border">
+      <div className="col-span-2 border">
         <Outlet></Outlet>
       </div>
     </div>
