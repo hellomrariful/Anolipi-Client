@@ -4,18 +4,20 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const image_hosting_key = import.meta.env.VITE_image_hosting_key;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddNews = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPublisher, setSelectedPublisher] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const axiosPublic = useAxiosPublic();
 
   // tags
   const animatedComponents = makeAnimated();
-  const colourOptions = [
+  const colorOptions = [
     { value: "news", label: "News" },
     // { value: 'blue', label: 'Blue', isDisabled: true },
     { value: "sports", label: "Sports" },
@@ -26,13 +28,20 @@ const AddNews = () => {
     { value: "feature", label: "Feature" },
   ];
 
+  const tags = selectedOption?.map((tag) => tag?.value).join(", ");
+  // console.log(tags);
+
+  const handleSelectChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+  };
+
   // publisher
 
   const { data: publishers = [] } = useQuery({
     queryKey: ["publishers"],
     queryFn: async () => {
       const res = await axiosPublic.get("/publishers");
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     },
   });
@@ -52,8 +61,11 @@ const AddNews = () => {
     const title = form.get("title");
     const description = form.get("description");
     const photo = form.get("photo");
-    const newsInfo = { title, description, photo };
-    console.log(newsInfo);
+
+    if (!selectedPublisher) {
+      alert("Please select a publisher");
+      return;
+    }
 
     // image upload to imgbb and then get an url
     if (photo instanceof File) {
@@ -67,9 +79,32 @@ const AddNews = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("ImgBB Response:", res.data);
+        // console.log("ImgBB Response:", res.data);
         const imageUrl = res.data.data.url;
-        const newsInfo = { title, description, photo: imageUrl };
+
+        const newsInfo = {
+          title,
+          description,
+          photo: imageUrl,
+          publisherName: selectedPublisher.name,
+          publisherPhoto: selectedPublisher.photo,
+          tags,
+        };
+
+        axiosPublic.post('/newses', newsInfo)
+        .then(res => {
+          console.log(res.data);
+          if(res.data.insertedId){
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `is an Admin Now!`,
+                showConfirmButton: false,
+                timer: 1500
+              });
+        }
+        })
+
         console.log("News Info:", newsInfo);
       } catch (error) {
         console.error("Error uploading image to ImgBB:", error);
@@ -277,10 +312,12 @@ const AddNews = () => {
           </h1>
           <Select
             closeMenuOnSelect={false}
+            onChange={handleSelectChange}
+            required
             components={animatedComponents}
-            // defaultValue={[colourOptions[4], colourOptions[5]]}
-            // isMulti
-            options={colourOptions}
+            // defaultValue={[colorOptions[4], colorOptions[5]]}
+            isMulti
+            options={colorOptions}
           />
 
           {/* publisher */}
@@ -294,7 +331,7 @@ const AddNews = () => {
             >
               {selectedPublisher ? (
                 <>
-                  <div className="flex justify-center items-center gap-2">
+                  <div className="flex justify-center mx-auto items-center gap-2">
                     <span className="relative block">
                       <img
                         alt="profile"
@@ -307,7 +344,9 @@ const AddNews = () => {
                 </>
               ) : (
                 <>
-                  Select Publisher
+                  <h1 className="flex justify-center mx-auto">
+                    Select Publisher
+                  </h1>
                   <svg
                     className="w-2.5 h-2.5 ms-3"
                     aria-hidden="true"
@@ -363,7 +402,7 @@ const AddNews = () => {
           {/* input */}
           <div>
             <input
-              className="inline-flex mt-10 items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 w-full"
+              className="flex justify-center mx-auto mt-10 items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 w-full "
               type="submit"
               value="Publish Post"
             />
