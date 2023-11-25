@@ -11,9 +11,8 @@ import { AuthContext } from "../../Providers/AuthProvider";
 const image_hosting_key = import.meta.env.VITE_image_hosting_key;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-
-const AddNews = () => {
-  const {user} = useContext(AuthContext)
+const UpdateNews = () => {
+  const { user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPublisher, setSelectedPublisher] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -34,7 +33,6 @@ const AddNews = () => {
   ];
 
   const tags = selectedOption?.map((tag) => tag?.value).join(", ");
-  // console.log(tags);
 
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
@@ -45,7 +43,6 @@ const AddNews = () => {
     queryKey: ["publishers"],
     queryFn: async () => {
       const res = await axiosPublic.get("/publishers");
-      // console.log(res.data);
       return res.data;
     },
   });
@@ -86,13 +83,13 @@ const AddNews = () => {
       displayErrorToast();
     }
 
-    // image upload to imgbb and then get an url
+    // image upload to imgBB and then get an url
     if (photo instanceof File) {
       try {
         const formData = new FormData();
         formData.append("image", photo);
 
-        // image upload to imgbb and then get an url
+        // image upload to imgBB and then get an url
         const res = await axiosPublic.post(image_hosting_api, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -111,7 +108,7 @@ const AddNews = () => {
           date: new Date(),
           authorName: user.displayName,
           authorEmail: user.email,
-          authorPhoto: user.photoURL
+          authorPhoto: user.photoURL,
         };
 
         axiosPublic.post("/newses", newsInfo).then((res) => {
@@ -141,7 +138,7 @@ const AddNews = () => {
       <div className="col-span-3 mr-5">
         <div>
           <label className="flex justify-center font-semibold">
-            Add new post
+            Update Your Post
           </label>
           <input
             type="text"
@@ -437,4 +434,4 @@ const AddNews = () => {
   );
 };
 
-export default AddNews;
+export default UpdateNews;

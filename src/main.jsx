@@ -44,6 +44,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute><MyNews></MyNews></PrivateRoute>,
       },
       {
+        path: "updateNews",
+        element: <PrivateRoute><UpdateNews></UpdateNews></PrivateRoute>,
+      },
+      {
         path: "/addNews",
         element: <PrivateRoute><AddNews></AddNews></PrivateRoute>,
       },
@@ -84,6 +88,7 @@ import {
 import AdminRoute from "./Routes/AdminRoute";
 import PrivateRoute from "./Routes/PrivateRoute";
 import Premium from "./Pages/Premium/Premium";
+import UpdateNews from "./Pages/MyNews/UpdateNews";
 
 const queryClient = new QueryClient();
 
