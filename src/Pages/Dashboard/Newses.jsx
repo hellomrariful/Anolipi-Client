@@ -4,6 +4,7 @@ import moment from "moment";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
 
 const Newses = () => {
   const axiosSecure = useAxiosSecure();
@@ -40,13 +41,81 @@ const Newses = () => {
     });
   };
 
-  const handleApprove = () => {
+  const handleApprove = (id) => {
+    axiosSecure.patch(`/newses/${id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount > 0) {
+        const displaySuccessToast = () => {
+          toast.dismiss("error-toast");
+          toast.success("Articles Approved", {
+            id: "error-toast",
+            duration: 2000,
+            style: {
+              padding: "14px",
+              color: "#524FF5",
+            },
+            iconTheme: {
+              primary: "#A1F65E",
+              secondary: "#FFFFFF",
+            },
+          });
+        };
+        displaySuccessToast();
+      }
+    });
+
     setIsDetailsVisible(false);
   };
-  const handlePremium = () => {
+
+  const handlePremium = (id) => {
+    axiosSecure.patch(`/newses/${id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount > 0) {
+        const displaySuccessToast = () => {
+          toast.dismiss("error-toast");
+          toast.success("Articles Approved in Premium Category", {
+            id: "error-toast",
+            duration: 2000,
+            style: {
+              padding: "14px",
+              color: "#524FF5",
+            },
+            iconTheme: {
+              primary: "#A1F65E",
+              secondary: "#FFFFFF",
+            },
+          });
+        };
+        displaySuccessToast();
+      }
+    });
+
     setIsDetailsVisible(false);
   };
-  const handleDecline = () => {
+
+  const handleDecline = (id) => {
+    axiosSecure.patch(`/newses/${id}`).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount > 0) {
+        const displaySuccessToast = () => {
+          toast.dismiss("error-toast");
+          toast.success("Article decline", {
+            id: "error-toast",
+            duration: 2000,
+            style: {
+              padding: "14px",
+              color: "#524FF5",
+            },
+            iconTheme: {
+              primary: "#A1F65E",
+              secondary: "#FFFFFF",
+            },
+          });
+        };
+        displaySuccessToast();
+      }
+    });
+
     setIsDetailsVisible(false);
   };
 
@@ -153,21 +222,21 @@ const Newses = () => {
                         <button
                           type="button"
                           className="px-2 py-1 bg-green-500 text-white rounded-md"
-                          onClick={() => handleApprove()}
+                          onClick={() => handleApprove(news._id)}
                         >
                           Approve
                         </button>
                         <button
                           type="button"
                           className="px-2 py-1 bg-green-500 text-white rounded-md"
-                          onClick={() => handlePremium()}
+                          onClick={() => handlePremium(news._id)}
                         >
                           Premium
                         </button>
                         <button
                           type="button"
                           className="px-2 py-1 bg-red-500 text-white rounded-md"
-                          onClick={() => handleDecline()}
+                          onClick={() => handleDecline(news._id)}
                         >
                           Decline
                         </button>
@@ -231,6 +300,7 @@ const Newses = () => {
           </ul>
         </nav>
       </div>
+      <Toaster position="top-center" reverseOrder={true}></Toaster>
     </div>
   );
 };

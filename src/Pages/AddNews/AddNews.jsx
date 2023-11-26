@@ -11,13 +11,11 @@ import { AuthContext } from "../../Providers/AuthProvider";
 const image_hosting_key = import.meta.env.VITE_image_hosting_key;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-
 const AddNews = () => {
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPublisher, setSelectedPublisher] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
-
   const axiosPublic = useAxiosPublic();
 
   // tags
@@ -65,7 +63,6 @@ const AddNews = () => {
     const title = form.get("title");
     const description = form.get("description");
     const photo = form.get("photo");
-    console.log(photo);
 
     if (!selectedPublisher) {
       const displayErrorToast = () => {
@@ -101,17 +98,26 @@ const AddNews = () => {
         // console.log("ImgBB Response:", res.data);
         const imageUrl = res.data.data.url;
 
+        const newsImage = imageUrl;
+        console.log(newsImage);
+        const publisherName = selectedPublisher.name;
+        const publisherPhoto = selectedPublisher.photo;
+        const date = new Date();
+        const authorName = user.displayName;
+        const authorEmail = user.email;
+        const authorPhoto = user.photoURL;
+
         const newsInfo = {
           title,
           description,
-          photo: imageUrl,
-          publisherName: selectedPublisher.name,
-          publisherPhoto: selectedPublisher.photo,
           tags,
-          date: new Date(),
-          authorName: user.displayName,
-          authorEmail: user.email,
-          authorPhoto: user.photoURL
+          newsImage,
+          date,
+          publisherName,
+          publisherPhoto,
+          authorName,
+          authorEmail,
+          authorPhoto,
         };
 
         axiosPublic.post("/newses", newsInfo).then((res) => {

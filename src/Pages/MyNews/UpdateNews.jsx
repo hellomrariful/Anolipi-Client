@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { useParams } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_image_hosting_key;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -16,8 +17,21 @@ const UpdateNews = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPublisher, setSelectedPublisher] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
-
   const axiosPublic = useAxiosPublic();
+
+  //updated
+  const { data: newses = [] } = useQuery({
+    queryKey: ["newses"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/newses");
+      return res.data;
+    },
+  });
+
+  const { id } = useParams();
+  const newsData = newses?.filter((item) => item.authorEmail === user.email);
+
+  const news = newsData?.find((item) => item._id === id);
 
   // tags
   const animatedComponents = makeAnimated();
@@ -62,7 +76,7 @@ const UpdateNews = () => {
     const title = form.get("title");
     const description = form.get("description");
     const photo = form.get("photo");
-    console.log(photo);
+    // console.log(photo);
 
     if (!selectedPublisher) {
       const displayErrorToast = () => {
@@ -98,23 +112,31 @@ const UpdateNews = () => {
         // console.log("ImgBB Response:", res.data);
         const imageUrl = res.data.data.url;
 
+        const newsImage = imageUrl;
+        const publisherName = selectedPublisher.name;
+        const publisherPhoto = selectedPublisher.photo;
+        const date = new Date();
+        const authorName = user.displayName;
+        const authorEmail = user.email;
+        const authorPhoto = user.photoURL;
+
         const newsInfo = {
           title,
           description,
-          photo: imageUrl,
-          publisherName: selectedPublisher.name,
-          publisherPhoto: selectedPublisher.photo,
           tags,
-          date: new Date(),
-          authorName: user.displayName,
-          authorEmail: user.email,
-          authorPhoto: user.photoURL,
+          newsImage,
+          date,
+          publisherName,
+          publisherPhoto,
+          authorName,
+          authorEmail,
+          authorPhoto,
         };
 
-        axiosPublic.post("/newses", newsInfo).then((res) => {
-          console.log(res.data);
-          // e.target.reset();
-          if (res.data.insertedId) {
+        axiosPublic.put(`/newses/${id}`, newsInfo).then((res) => {
+          //   console.log(res.data);
+          e.target.reset();
+          if (res.data.modifyCount > 0) {
             Swal.fire({
               position: "top-end",
               icon: "success",
@@ -125,7 +147,7 @@ const UpdateNews = () => {
           }
         });
 
-        console.log("News Info:", newsInfo);
+        // console.log("News Info:", newsInfo);
       } catch (error) {
         console.error("Error uploading image to ImgBB:", error);
       }
@@ -145,6 +167,7 @@ const UpdateNews = () => {
             id="helper-text"
             name="title"
             required
+            defaultValue={news?.title}
             aria-describedby="helper-text-explanation"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 rounded mt-5"
             placeholder="Add a title"
@@ -315,6 +338,7 @@ const UpdateNews = () => {
                 id="editor"
                 name="description"
                 rows="15"
+                defaultValue={news?.description}
                 className="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
                 placeholder="Write an article..."
                 required
@@ -335,6 +359,7 @@ const UpdateNews = () => {
             onChange={handleSelectChange}
             required
             components={animatedComponents}
+            defaultValue={news?.tags}
             // defaultValue={[colorOptions[4], colorOptions[5]]}
             isMulti
             options={colorOptions}
@@ -356,6 +381,7 @@ const UpdateNews = () => {
                       <img
                         alt="profile"
                         src={selectedPublisher.photo}
+                        defaultValue={news?.publisherPhoto}
                         className="mx-auto object-cover rounded-full h-10 w-10 "
                       />
                     </span>
@@ -407,6 +433,7 @@ const UpdateNews = () => {
                           <img
                             alt="profile"
                             src={publisher.photo}
+                            // defaultValue={publisherPhoto}
                             className="mx-auto object-cover rounded-full h-10 w-10 "
                           />
                         </span>
@@ -424,7 +451,7 @@ const UpdateNews = () => {
             <input
               className="flex justify-center mx-auto mt-10 items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 w-full cursor-pointer"
               type="submit"
-              value="Publish Post"
+              value="Update Post"
             />
           </div>
         </div>

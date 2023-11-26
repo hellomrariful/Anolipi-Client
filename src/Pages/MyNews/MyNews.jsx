@@ -7,18 +7,14 @@ import { Link } from "react-router-dom";
 
 const MyNews = () => {
   const { user } = useContext(AuthContext);
-
-  const userEmail = user.email;
-
   const axiosPublic = useAxiosPublic();
+  
   const { data: newses = [], refetch } = useQuery({
     queryKey: ["newses"],
     queryFn: async () => {
-      if (userEmail) {
-        const res = await axiosPublic.get("/newses");
-        // console.log(res.data);
-        return res.data;
-      }
+      const res = await axiosPublic.get("/newses");
+      // console.log(res.data);
+      return res.data;
     },
   });
 
@@ -95,7 +91,7 @@ const MyNews = () => {
                 <td className="px-6 py-4">Yes</td>
                 <td className="px-6 py-4"></td>
                 <td className="px-6 py-4">
-                  <Link to={'/updateNews'}>
+                  <Link to={`/updateNews/${news._id}`}>
                     <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                       Edit
                     </button>
