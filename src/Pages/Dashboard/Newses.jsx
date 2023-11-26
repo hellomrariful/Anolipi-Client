@@ -42,8 +42,8 @@ const Newses = () => {
   };
 
   const handleApprove = (id) => {
-    axiosSecure.patch(`/newses/${id}`).then((res) => {
-      console.log(res.data);
+    axiosSecure.patch(`/newses/approve/${id}`).then((res) => {
+      refetch();
       if (res.data.modifiedCount > 0) {
         const displaySuccessToast = () => {
           toast.dismiss("error-toast");
@@ -69,7 +69,7 @@ const Newses = () => {
 
   const handlePremium = (id) => {
     axiosSecure.patch(`/newses/${id}`).then((res) => {
-      console.log(res.data);
+      refetch();
       if (res.data.modifiedCount > 0) {
         const displaySuccessToast = () => {
           toast.dismiss("error-toast");
@@ -94,8 +94,8 @@ const Newses = () => {
   };
 
   const handleDecline = (id) => {
-    axiosSecure.patch(`/newses/${id}`).then((res) => {
-      console.log(res.data);
+    axiosSecure.patch(`/newses/decline/${id}`).then((res) => {
+      refetch();
       if (res.data.modifiedCount > 0) {
         const displaySuccessToast = () => {
           toast.dismiss("error-toast");
@@ -150,9 +150,7 @@ const Newses = () => {
               <th scope="col" className="px-6 py-3">
                 Info
               </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
+
               <th scope="col" className="px-6 py-3">
                 Title
               </th>
@@ -161,6 +159,12 @@ const Newses = () => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Date
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3">
+                IsPremium
               </th>
               <th scope="col" className="px-6 py-3">
                 Action
@@ -194,16 +198,36 @@ const Newses = () => {
                     </div>
                   </th>
 
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>
-                      Active
-                    </div>
-                  </td>
                   <td className="px-6 py-4">{news.title}</td>
                   <td className="px-6 py-4">{news.publisherName}</td>
                   <td className="px py-4">
                     {moment(news.date).format("D-M-YY")}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center">
+                      <div className="h-2.5 w-2.5 rounded-full me-2">
+                        {news.status === "Approve" ? (
+                          <span className="text-green-500">Approve</span>
+                        ) : news.status === "Decline" ? (
+                          <span className="text-red-500">Decline</span>
+                        ) : (
+                          <span className="">Pending</span>
+                        )}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center">
+                      <div className="h-2.5 w-2.5 rounded-full me-2">
+                        {news.status === "Approve" ? (
+                          <span className="text-green-500">Yes</span>
+                        ) : news.status === "Decline" ? (
+                          <span className="text-red-500">No</span>
+                        ) : (
+                          <span className="">Pending</span>
+                        )}
+                      </div>
+                    </div>
                   </td>
                   <td className="px-8 py-4">
                     <button
