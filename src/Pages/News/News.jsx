@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { FaEye, FaRegClock, FaTimes } from "react-icons/fa";
+import { FaEye, FaRegClock } from "react-icons/fa";
 
 const News = () => {
   const axiosPublic = useAxiosPublic();
@@ -24,7 +24,7 @@ const News = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-5 lg:overflow-x-hidden justify-center">
+    <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-5 lg:overflow-x-hidden justify-center">
       {approveNewses?.map((news) => (
         <div
           key={news._id}
@@ -58,34 +58,53 @@ const News = () => {
               </div>
             </div>
             <div className="mt-1 flex items-center gap-1 text-slate-400">
-            <FaRegClock />
-                {moment(news.date).format("MMM-D-YY")}</div>
+              <FaRegClock />
+              {moment(news.date).format("MMM-D-YY")}
+            </div>
             <div className="flex items-center mt-1 gap-1 text-slate-400">
               <FaEye></FaEye>
-               1.1M
+              1.1M
             </div>
           </div>
 
           <div className="">
-            <h5 className="block mx-4 mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+            <h5 className="block mx-4 mb-1 mt-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
               {news.title}
             </h5>
             <p className="block mx-4 font-sans text-base antialiased font-light leading-relaxed text-inherit">
               {shortDescription(news.description)}...
-              <Link to={'/newsDetails'} className="text-blue-500">আরো পড়ুন</Link>
+              <Link to={`/newsDetails/${news._id}`} className="text-blue-500">
+                আরো পড়ুন
+                
+              </Link>
             </p>
           </div>
           <div className="mx-4 mt-3 mb-4">
-            <Link to={'/newsDetails'}>
-            <button
-              className="select-none w-full rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              type="button"
-              data-ripple-light="true"
-            >
-              Read More
-            </button>
-            </Link>
-            
+            {news.isPremium == "Yes" ? (
+              <>
+                <button
+                  disabled
+                  
+                  className="select-none cursor-pointer w-full rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button"
+                  data-ripple-light="true"
+                >
+                  Read More
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to={`/newsDetails/${news._id}`}>
+                  <button
+                    className="select-none w-full rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    type="button"
+                    data-ripple-light="true"
+                  >
+                    Read More
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       ))}

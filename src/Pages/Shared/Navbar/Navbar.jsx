@@ -2,12 +2,12 @@ import { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/Anolipi-Logo.webp";
 import { AuthContext } from "../../../Providers/AuthProvider";
-import './Navbar.css'
+import "./Navbar.css";
 import useAdmin from "../../../Hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const [isAdmin] = useAdmin()
+  const [isAdmin] = useAdmin();
   const navigate = useNavigate();
 
   // console.log(user);
@@ -38,11 +38,11 @@ const Navbar = () => {
     <nav className="flex gap-3 md:gap-4 lg:gap-10 lg:text-xl text-[18px]">
       <NavLink to="/">Home</NavLink>
       <NavLink to="/news">News</NavLink>
-      { user && isAdmin ? <NavLink to="/dashboard">Dashboard</NavLink> : null}
-      { user ? <NavLink to="/addNews">Add News</NavLink> : null}
-      { user ? <NavLink to="/myNews">My News</NavLink>: null}
 
-      { user ? <NavLink to="/subscription">Subscription</NavLink> : null}
+      {user ? <NavLink to="/addNews">Add News</NavLink> : null}
+      {user ? <NavLink to="/myNews">My News</NavLink> : null}
+      {user ? <NavLink to="/subscription">Subscription</NavLink> : null}
+      {user ? <NavLink to="/premium">Premium</NavLink> : null}
       {user ? null : <NavLink to="/register">Register</NavLink>}
     </nav>
   );
@@ -107,6 +107,11 @@ const Navbar = () => {
                       <NavLink to="/profile">
                         <button>Profile</button>
                       </NavLink>
+                    </li>
+                    <li className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-center">
+                      {user && isAdmin ? (
+                        <NavLink to="/dashboard">Dashboard</NavLink>
+                      ) : null}
                     </li>
                     <li className="block px-4 py-2 text-gray-700 hover:bg-gray-100  text-center">
                       <button onClick={handelSignOut}>Sign Out</button>
