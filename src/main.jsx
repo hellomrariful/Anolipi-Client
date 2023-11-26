@@ -37,37 +37,81 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <PrivateRoute><Profile></Profile></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/news",
+        element: (
+          <PrivateRoute>
+            <News></News>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/newsDetails",
+        element: (
+          <PrivateRoute>
+            <NewsDetails></NewsDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/myNews",
-        element: <PrivateRoute><MyNews></MyNews></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <MyNews></MyNews>
+          </PrivateRoute>
+        ),
       },
       {
         path: "updateNews/:id",
-        element: <PrivateRoute><UpdateNews></UpdateNews></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <UpdateNews></UpdateNews>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/addNews",
-        element: <PrivateRoute><AddNews></AddNews></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <AddNews></AddNews>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/subscription",
-        element: <PrivateRoute><Subscription></Subscription></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <Subscription></Subscription>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/premium",
-        element: <PrivateRoute><Premium></Premium></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <Premium></Premium>
+          </PrivateRoute>
+        ),
       },
     ],
   },
   {
     path: "dashboard",
-    element: <AdminRoute><Dashboard></Dashboard></AdminRoute>,
+    element: (
+      <AdminRoute>
+        <Dashboard></Dashboard>
+      </AdminRoute>
+    ),
     children: [
       {
         path: "allUsers",
-        element: <Users></Users>
+        element: <Users></Users>,
       },
       {
         path: "newses",
@@ -81,14 +125,13 @@ const router = createBrowserRouter([
   },
 ]);
 
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AdminRoute from "./Routes/AdminRoute";
 import PrivateRoute from "./Routes/PrivateRoute";
 import Premium from "./Pages/Premium/Premium";
 import UpdateNews from "./Pages/MyNews/UpdateNews";
+import News from "./Pages/News/News";
+import NewsDetails from "./Pages/News/NewsDetails";
 
 const queryClient = new QueryClient();
 

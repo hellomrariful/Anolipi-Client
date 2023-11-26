@@ -219,12 +219,10 @@ const Newses = () => {
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="h-2.5 w-2.5 rounded-full me-2">
-                        {news.status === "Approve" ? (
+                        {news.isPremium === "Yes" ? (
                           <span className="text-green-500">Yes</span>
-                        ) : news.status === "Decline" ? (
-                          <span className="text-red-500">No</span>
                         ) : (
-                          <span className="">Pending</span>
+                          <span className="">No</span>
                         )}
                       </div>
                     </div>
