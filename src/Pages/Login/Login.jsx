@@ -6,12 +6,10 @@ import toast, { Toaster } from "react-hot-toast";
 
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
-
-
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
-   const axiosPublic = useAxiosPublic()
+  const axiosPublic = useAxiosPublic();
   const [show, setShow] = useState(false);
   const [loggedError, setLoggedError] = useState("");
   const location = useLocation();
@@ -66,14 +64,13 @@ const Login = () => {
       .then((result) => {
         // console.log(result.user);
         const userInfo = {
-            email: result.user?.email,
-            name: result.user?.displayName,
-            photo: result.user?.photoURL
-        }
-        axiosPublic.post('/users', userInfo)
-        .then(res => {
-            console.log(res.data);
-        })
+          email: result.user?.email,
+          name: result.user?.displayName,
+          photo: result.user?.photoURL,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          console.log(res.data);
+        });
 
         const displayErrorToast = () => {
           toast.dismiss("error-toast");
@@ -110,9 +107,7 @@ const Login = () => {
       <div className="flex justify-center">
         <div className=" px-8 py-12 bg-[#F7FAFC] rounded-2xl drop-shadow-2xl">
           <div className="relative flex flex-col shadow-none">
-            <h4 className="block text-center text-[22px]">
-              Log in to Tripify
-            </h4>
+            <h4 className="block text-center text-[22px]">Log in to Anolipi</h4>
             <div>
               {loggedError && (
                 <p className="border-2 p-3 mt-6 border-[#de4523] bg-[#ffebe8]  text-black rounded">

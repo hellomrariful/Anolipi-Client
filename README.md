@@ -1,8 +1,20 @@
-# React + Vite
+# Anolipi
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## [ Anolipi Live Link](https://Anolipi.web.app/)
 
-Currently, two official plugins are available:
+Live URL: [https://Anolipi.web.app/](https://Anolipi.web.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<details>
+<summary style="font-weight: bold; text:2xl" >Five features and functionalities of Anolipi</summary>
+
+- This project is developed for publish diffent type Articles.
+
+- In this project, You can also publish your article and we pay you for your article.
+
+- Also This Project allows add publisher by admin.
+
+- When users logged in then user can access detailed information about each Articles, and also user can subscribe for premium content.
+
+- Also user can filter the article tags. If wanna explore this site, you need must logged In. If user logged, then He/She see all feature easily.
+
+</details>
