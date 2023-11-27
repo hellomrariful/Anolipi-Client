@@ -28,6 +28,10 @@ const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
+        path: "/newsTest",
+        element: <NewsTest></NewsTest>,
+      },
+      {
         path: "/login",
         element: <Login></Login>,
       },
@@ -128,6 +132,7 @@ import Premium from "./Pages/Premium/Premium";
 import UpdateNews from "./Pages/MyNews/UpdateNews";
 import News from "./Pages/News/News";
 import NewsDetails from "./Pages/News/NewsDetails";
+import NewsTest from "./Pages/MyNews/NewsTest";
 
 const queryClient = new QueryClient();
 

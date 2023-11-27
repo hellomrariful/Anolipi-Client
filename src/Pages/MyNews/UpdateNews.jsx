@@ -133,10 +133,13 @@ const UpdateNews = () => {
           authorPhoto,
         };
 
+        console.log(newsInfo);
+
         axiosPublic.put(`/newses/${id}`, newsInfo).then((res) => {
           //   console.log(res.data);
           e.target.reset();
-          if (res.data.modifyCount > 0) {
+          console.log(res);
+          if (res.data.modifyCount < 0) {
             Swal.fire({
               position: "top-end",
               icon: "success",
