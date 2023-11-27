@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const MyNews = () => {
   const { user } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
-  
+
   const { data: newses = [], refetch } = useQuery({
     queryKey: ["newses"],
     queryFn: async () => {
@@ -61,6 +61,9 @@ const MyNews = () => {
                 Status
               </th>
               <th scope="col" className="px-6 py-3">
+                Feedback
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Premium
               </th>
               <th scope="col" className="px-6 py-3">
@@ -87,9 +90,55 @@ const MyNews = () => {
                 >
                   {news.title}
                 </th>
-                <td className="px-6 py-4">Pending</td>
-                <td className="px-6 py-4">Yes</td>
-                <td className="px-6 py-4"></td>
+                <td className="px-6 py-4">
+                  <div className="flex items-center">
+                    <div className="h-2.5 w-2.5 rounded-full me-2">
+                      {news.status === "Approve" ? (
+                        <span className="text-green-500">Approve</span>
+                      ) : news.status === "Decline" ? (
+                        <span className="text-red-500">Decline</span>
+                      ) : (
+                        <span className="">Pending</span>
+                      )}
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex items-center">
+                    <div className="h-2.5 w-2.5 rounded-full me-2">
+                      {news.isPremium === "Yes" ? (
+                        <span className="text-green-500">Yes</span>
+                      ) : (
+                        <button className="text-blue-600 underline">See</button>
+                      )}
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex items-center">
+                    <div className="h-2.5 w-2.5 rounded-full me-2">
+                      {news.isPremium === "Yes" ? (
+                        <span className="text-green-500">Yes</span>
+                      ) : (
+                        <span className="">No</span>
+                      )}
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  {news.status === "Approve" || news.status === "Decline" ? (
+                    <p>
+                      <Link
+                        className="text-blue-600 underline"
+                        to={`/newsDetails/${news._id}`}
+                      >
+                        Click
+                      </Link>
+                    </p>
+                  ) : (
+                    <p>Wait!</p>
+                  )}
+                </td>
                 <td className="px-6 py-4">
                   <Link to={`/updateNews/${news._id}`}>
                     <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
