@@ -73,9 +73,15 @@ const News = () => {
             </h5>
             <p className="block mx-4 font-sans text-base antialiased font-light leading-relaxed text-inherit">
               {shortDescription(news.description)}...
-              <Link to={`/newsDetails/${news._id}`} className="text-blue-500">
-                আরো পড়ুন
-              </Link>
+              {news.isPremium === "Yes" ? (
+                <Link to={`/subscription`} className="text-blue-500">
+                  আরো পড়ুন
+                </Link>
+              ) : (
+                <Link to={`/newsDetails/${news._id}`} className="text-blue-500">
+                  আরো পড়ুন
+                </Link>
+              )}
             </p>
           </div>
           <div className="mx-4 mt-3 mb-4">
@@ -114,7 +120,7 @@ export default News;
 
 // const getNewses = async ({ pageParam = 0 }) => {
 //   const res = await fetch(
-//     `https://anolipi-server.vercel.app/newses?limit=10&offset=${pageParam}`
+//     `http://localhost:5000/newses?limit=10&offset=${pageParam}`
 //   );
 //   const data = await res.json();
 

@@ -46,7 +46,7 @@ const Profile = () => {
           <p className="flex items-center text-xs text-gray-400">
             {user.email}
           </p>
-          <p className="text-xs text-gray-400">FullStack dev</p>
+          <p className="text-xs text-gray-400">FullStack dev.</p>
           <div className="flex items-center justify-between w-full gap-4 mt-8">
             <Popover placement="bottom">
               <PopoverHandler>
@@ -103,7 +103,7 @@ const Profile = () => {
                       }}
                     />
                   </div>
-                  <button className="py-3 px-4 bg-blue-gray-600 text-white rounded">
+                  <button className="py-3 px-14 bg-gray-900 text-white rounded-lg mx-auto justify-center mt-2 flex">
                     Submit
                   </button>
                 </form>
