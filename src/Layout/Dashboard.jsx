@@ -2,11 +2,12 @@ import { useContext } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 import { FaBook } from "react-icons/fa";
+import Statistics from "../Pages/Dashboard/Statistics";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   return (
-    <div className="min-h-screen grid grid-cols-3 mt-10 container mx-auto">
+    <div className="min-h-screen grid grid-cols-3 mt-10">
       {/* sidebar left */}
       <div className="w-60 dark:bg-gray-900 dark:text-gray-100 col-span-1">
         <div className="flex items-center p-2 space-x-4">
@@ -112,6 +113,7 @@ const Dashboard = () => {
 
       {/* sidebar right */}
       <div className="col-span-2 border">
+        <Statistics></Statistics>
         <Outlet></Outlet>
       </div>
     </div>
