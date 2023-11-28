@@ -12,13 +12,13 @@ const Publisher = () => {
   });
 
   return (
-    <div className="grid grid-cols-4 mx-auto justify-center items-center">
-      {publishers?.map((publisher) => (
-        <div
-          key={publisher._id}
-          className="grid dark:bg-gray-800 dark:text-gray-100"
-        >
-          <div>
+    <div className="mx-auto justify-center items-center">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 lg:-ml-12 md:-ml-24 mx-auto justify-center">
+        {publishers?.map((publisher) => (
+          <div
+            key={publisher._id}
+            className="grid dark:bg-gray-800 dark:text-gray-100"
+          >
             <div className="flex flex-row  justify-center">
               <div className="flex flex-col justify-center w-full  my-12 text-center rounded-md md:w-96 lg:w-80 xl:w-64 dark:bg-gray-100 dark:text-gray-800">
                 <img
@@ -96,8 +96,8 @@ const Publisher = () => {
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

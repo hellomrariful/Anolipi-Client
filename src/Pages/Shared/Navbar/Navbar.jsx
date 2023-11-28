@@ -10,8 +10,6 @@ const Navbar = () => {
   const [isAdmin] = useAdmin();
   const navigate = useNavigate();
 
-  // console.log(user);
-
   const handelSignOut = async () => {
     try {
       await logOut();
@@ -39,11 +37,10 @@ const Navbar = () => {
       <NavLink to="/">Home</NavLink>
       <NavLink to="/news">News</NavLink>
 
-      {user ? <NavLink to="/addNews">Add News</NavLink> : null}
-      {user ? <NavLink to="/myNews">My News</NavLink> : null}
       {user ? <NavLink to="/subscription">Subscription</NavLink> : null}
       {user ? <NavLink to="/premium">Premium</NavLink> : null}
       {user ? null : <NavLink to="/register">Register</NavLink>}
+      {user && isAdmin ? <NavLink to="/dashboard">Dashboard</NavLink> : null}
     </nav>
   );
 
@@ -109,9 +106,10 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                     <li className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-center">
-                      {user && isAdmin ? (
-                        <NavLink to="/dashboard">Dashboard</NavLink>
-                      ) : null}
+                      {user ? <NavLink to="/addNews">Add News</NavLink> : null}
+                    </li>
+                    <li className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-center">
+                      {user ? <NavLink to="/myNews">My News</NavLink> : null}
                     </li>
                     <li className="block px-4 py-2 text-gray-700 hover:bg-gray-100  text-center">
                       <button onClick={handelSignOut}>Sign Out</button>
@@ -158,18 +156,10 @@ const Navbar = () => {
               <li className="block text-gray-900  hover:text-blue-700">
                 <NavLink to="/">Home</NavLink>
               </li>
-              <NavLink to="/services">Services</NavLink>
-
-              <li className="block text-gray-900  hover:text-blue-700">
-                <NavLink to="/gallery">Gallery</NavLink>
-              </li>
-              {user ? (
-                <>
-                  <li className="block px-4 py-2 text-gray-700 hover:bg-gray-100  text-center">
-                    <button onClick={handelSignOut}>Sign Out</button>
-                  </li>
-                </>
-              ) : null}
+              <NavLink to="/news">News</NavLink>
+              {user ? null : <NavLink to="/register">Register</NavLink>}
+              {user ? <NavLink to="/subscription">Subscription</NavLink> : null}
+              {user ? <NavLink to="/premium">Premium</NavLink> : null}
             </ul>
           </div>
         ) : null}
