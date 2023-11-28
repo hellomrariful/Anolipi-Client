@@ -16,6 +16,12 @@ import Dashboard from "./Layout/Dashboard";
 import Users from "./Pages/Dashboard/Users";
 import Newses from "./Pages/Dashboard/Newses";
 import Publisher from "./Pages/Dashboard/Publisher";
+import AdminRoute from "./Routes/AdminRoute";
+import PrivateRoute from "./Routes/PrivateRoute";
+import Premium from "./Pages/Premium/Premium";
+import UpdateNews from "./Pages/MyNews/UpdateNews";
+import News from "./Pages/News/News";
+import NewsDetails from "./Pages/News/NewsDetails";
 
 const router = createBrowserRouter([
   {
@@ -26,10 +32,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-      },
-      {
-        path: "/newsTest",
-        element: <NewsTest></NewsTest>,
       },
       {
         path: "/login",
@@ -53,11 +55,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/newsDetails/:id",
-        element: (
-          <PrivateRoute>
-            <NewsDetails></NewsDetails>
-          </PrivateRoute>
-        ),
+        element:  <PrivateRoute><NewsDetails></NewsDetails> </PrivateRoute>,
+     
       },
       {
         path: "/myNews",
@@ -126,13 +125,6 @@ const router = createBrowserRouter([
 ]);
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import AdminRoute from "./Routes/AdminRoute";
-import PrivateRoute from "./Routes/PrivateRoute";
-import Premium from "./Pages/Premium/Premium";
-import UpdateNews from "./Pages/MyNews/UpdateNews";
-import News from "./Pages/News/News";
-import NewsDetails from "./Pages/News/NewsDetails";
-import NewsTest from "./Pages/MyNews/NewsTest";
 
 const queryClient = new QueryClient();
 
