@@ -55,8 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/newsDetails/:id",
-        element:  <PrivateRoute><NewsDetails></NewsDetails> </PrivateRoute>,
-     
+        element: <NewsDetails></NewsDetails>,
       },
       {
         path: "/myNews",
@@ -120,11 +119,16 @@ const router = createBrowserRouter([
         path: "publisher",
         element: <Publisher></Publisher>,
       },
+      {
+        path: "",
+        element: <Statistics></Statistics>,
+      },
     ],
   },
 ]);
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Statistics from "./Pages/Dashboard/Statistics";
 
 const queryClient = new QueryClient();
 

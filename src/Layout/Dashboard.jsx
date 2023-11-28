@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 import { FaBook } from "react-icons/fa";
-import Statistics from "../Pages/Dashboard/Statistics";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -113,7 +112,6 @@ const Dashboard = () => {
 
       {/* sidebar right */}
       <div className="col-span-2 border">
-        <Statistics></Statistics>
         <Outlet></Outlet>
       </div>
     </div>

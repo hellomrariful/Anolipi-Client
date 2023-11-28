@@ -146,32 +146,40 @@
 
 // export default News;
 
-
-
-
-
-
-
-
-
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { FaEye, FaRegClock } from "react-icons/fa";
 import { IconButton } from "@material-tailwind/react";
+import { useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = () => {
   const axiosPublic = useAxiosPublic();
+  const [dataSource, setDataSource] = useState(Array.from({ length: 2 }));
+  const [hasMore, setHasMore] = useState(true);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["infinite"],
-    queryFn: ({ pageParam = 0 }) => axiosPublic.get(`/infinite?page=${pageParam}`),
-    getNextPageParam: (lastPage) => lastPage.data.nextPage, // Adjust this based on your API response
+  const { data: newses = [] } = useQuery({
+    queryKey: ["newses"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/newses");
+      console.log(res.data);
+      return res.data;
+    },
   });
 
-  const approveNewses = data?.pages.flatMap((page) => page.data).filter((item) => item.status === "Approve");
+  const approveNewses = newses?.filter((item) => item.status === "Approve");
+
+  const fetchData = () => {
+    if (dataSource.length < approveNewses.length) {
+      setDataSource((prevData) => prevData.concat(Array.from({ length: 2 })));
+    } else {
+      setHasMore(false);
+    }
+  };
+
+  console.log("approveNewses length:", approveNewses.length);
 
   const shortDescription = (description) => {
     const words = description.split(" ");
@@ -180,21 +188,16 @@ const News = () => {
   };
 
   return (
-    <div>
-      <InfiniteScroll
-        dataLength={approveNewses ? approveNewses.length : 0}
-        next={fetchNextPage}
-        hasMore={hasNextPage}
-        loader={<div>Loading...☝️</div>}
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
-      >
-        <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-5 lg:overflow-x-hidden justify-center mx-auto">
-          {approveNewses?.map((news) => (
-            <div
+    <InfiniteScroll
+      dataLength={dataSource.length}
+      next={fetchData}
+      hasMore={hasMore}
+      loader={<p>Loading...</p>}
+      endMessage={<p>No more data to load.</p>}
+    >
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-5 lg:overflow-x-hidden justify-center mx-auto">
+        {approveNewses?.map((news) => (
+          <div
             key={news._id}
             className="relative flex flex-col text-gray-700 bg-white shadow-md lg:w-96 rounded-xl bg-clip-border lg:ml-10 border-2"
           >
@@ -205,7 +208,7 @@ const News = () => {
                 alt="img-blur-shadow"
               />
             </div>
-  
+
             <div className="mx-4 mt-4 flex items-center justify-between text-center content-center">
               <div className="flex items-center">
                 {news.isPremium === "Yes" ? (
@@ -262,7 +265,7 @@ const News = () => {
                 {news.viewCount || 0} M
               </div>
             </div>
-  
+
             <div className="">
               <h5 className="block mx-4 mb-1 mt-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
                 {news.title}
@@ -274,7 +277,10 @@ const News = () => {
                     আরো পড়ুন
                   </Link>
                 ) : (
-                  <Link to={`/newsDetails/${news._id}`} className="text-blue-500">
+                  <Link
+                    to={`/newsDetails/${news._id}`}
+                    className="text-blue-500"
+                  >
                     আরো পড়ুন
                   </Link>
                 )}
@@ -307,19 +313,13 @@ const News = () => {
               )}
             </div>
           </div>
-          ))}
-        </div>
-      </InfiniteScroll>
-    </div>
+        ))}
+      </div>
+    </InfiniteScroll>
   );
 };
 
 export default News;
-
-
-
-
-
 
 
 // import { useQuery } from "@tanstack/react-query";
@@ -329,7 +329,6 @@ export default News;
 // import { IconButton } from "@material-tailwind/react";
 // import useAxiosPublic from "../../Hooks/useAxiosPublic";
 // import InfiniteScroll from "react-infinite-scroll-component";
-
 
 // const News = () => {
 //   const axiosPublic = useAxiosPublic();
@@ -342,7 +341,6 @@ export default News;
 //       return fetchData;
 //     },
 //   });
-
 
 //   const approveNewses = infinite?.filter((item) => item.status === "Approve");
 
@@ -371,7 +369,7 @@ export default News;
 //                 alt="img-blur-shadow"
 //               />
 //             </div>
-  
+
 //             <div className="mx-4 mt-4 flex items-center justify-between text-center content-center">
 //               <div className="flex items-center">
 //                 {news.isPremium === "Yes" ? (
@@ -428,7 +426,7 @@ export default News;
 //                 {news.viewCount || 0} M
 //               </div>
 //             </div>
-  
+
 //             <div className="">
 //               <h5 className="block mx-4 mb-1 mt-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
 //                 {news.title}
@@ -476,11 +474,11 @@ export default News;
 //         ))}
 //       </div>}
 //         endMessage={
-        
+
 //           <p style={{ textAlign: 'center' }}>
 //           <b>Yay! You have seen it all</b>
 //         </p>
-        
+
 //         }
 //         // ... (other props)
 //       >
@@ -491,16 +489,6 @@ export default News;
 // };
 
 // export default News;
-
-
-
-
-
-
-
-
-
-
 
 // {/* <InfiniteScroll
 //   dataLength={infinite.length}
