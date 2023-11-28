@@ -75,7 +75,6 @@ const News = () => {
               {shortDescription(news.description)}...
               <Link to={`/newsDetails/${news._id}`} className="text-blue-500">
                 আরো পড়ুন
-
               </Link>
             </p>
           </div>
@@ -84,7 +83,6 @@ const News = () => {
               <>
                 <button
                   disabled
-
                   className="select-none cursor-pointer w-full rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                   type="button"
                   data-ripple-light="true"
@@ -114,29 +112,9 @@ const News = () => {
 
 export default News;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const getNewses = async ({ pageParam = 0 }) => {
 //   const res = await fetch(
-//     `http://localhost:5000/newses?limit=10&offset=${pageParam}`
+//     `https://anolipi-server.vercel.app/newses?limit=10&offset=${pageParam}`
 //   );
 //   const data = await res.json();
 
@@ -186,11 +164,6 @@ export default News;
 
 // export default News;
 
-
-
-
-
-
 // import { useInfiniteQuery } from '@tanstack/react-query';
 // import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -200,9 +173,7 @@ export default News;
 
 //     return { ...data, prevOffset: pageParam }
 
-
 // }
-
 
 // const Home = () => {
 //     const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
@@ -217,12 +188,9 @@ export default News;
 
 //     })
 
-
-
 //     const articles = data?.pages.reduce((acc, page) => {
 //         return [...acc, ...page.articles]
 //     }, [])
-
 
 //     return (
 //         <div>
@@ -253,10 +221,3 @@ export default News;
 // };
 
 // export default Home;
-
-
-
-
-
-
-
