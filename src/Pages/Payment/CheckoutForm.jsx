@@ -15,7 +15,7 @@ const CheckoutForm = () => {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    axiosSecure.post("/create-payment-intent", { price: 200 }).then((res) => {
+    axiosSecure.post("/create-payment-intent", { price: 2000000000 }).then((res) => {
       console.log(res.data.clientSecret);
       setClientSecret(res.data.clientSecret);
     });
