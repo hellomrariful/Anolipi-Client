@@ -97,6 +97,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/payment",
+        element: (
+          <PrivateRoute>
+           <Payment></Payment>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
@@ -129,6 +137,7 @@ const router = createBrowserRouter([
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Statistics from "./Pages/Dashboard/Statistics";
+import Payment from "./Pages/Payment/Payment";
 
 const queryClient = new QueryClient();
 
