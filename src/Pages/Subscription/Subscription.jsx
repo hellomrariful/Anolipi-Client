@@ -1,36 +1,62 @@
-import { useState } from 'react';
-import BannerImg from '../../assets/Big-Sale.png'
-import { Link } from 'react-router-dom';
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import BannerImg from "../../assets/Big-Sale.png";
+import { Select, Option } from "@material-tailwind/react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Subscription = () => {
-    const [subscriptionPeriod, setSubscriptionPeriod] = useState('1_minute');
+  const axiosPublic = useAxiosPublic();
+  const { user } = useContext(AuthContext);
+  const [selectedValue, setSelectedValue] = useState(null);
 
-    const handleSubscription = async () => {
-        // Perform subscription logic, update the user's premiumTaken field
-        // You can make an API call to update the user's premiumTaken field on the server
-      };
+ 
 
-    return (
-        <div>
-            <img className=' rounded' src={BannerImg} alt="" />
+  const handleSelectChange = async (value) => {
+    const email = user.email;
 
-            {/* Subscription Dropdown */}
-      <div className='mt-10'>
-      <select
-        value={subscriptionPeriod}
-        onChange={(e) => setSubscriptionPeriod(e.target.value)}
-      >
-        <option value="1_minute">1 Minute</option>
-        <option value="5_days">5 Days</option>
-        <option value="10_days">10 Days</option>
-      </select>
-      <br />
+    const parts = value.split(" ");
+    const price = parseFloat(parts[parts.length - 1].replace("$", ""));
+    const subscribeTime = parts.slice(0, parts.length - 2).join(" ");
 
-      {/* Subscription Button */}
-      <Link to={'/payment'}><button onClick={handleSubscription}>Take Subscription</button></Link>
+    console.log("Price:", price);
+    console.log("Subscribe Time:", subscribeTime);
+
+    setSelectedValue({ price, subscribeTime });
+
+    axiosPublic.patch(`/users/subscribe/${email}`, {
+      price,
+      subscribeTime,
+    });
+  };
+
+  return (
+    <div>
+      <img className="rounded" src={BannerImg} alt="" />
+
+      <div className="w-72 mt-20 text-center">
+        <Select onChange={handleSelectChange} placeholder="Select Version">
+          <Option value="1 Minuit $20">1 minute $20</Option>
+          <Option value="1 Day $100">1 Day $100</Option>
+          <Option value="10 Days $200">10 Days $200</Option>
+        </Select>
       </div>
-        </div>
-    );
+      {selectedValue ? (
+        <Link to="/payment">
+          <button className="py-3 px-2 mt-6 bg-blue-gray-700">Pay</button>
+        </Link>
+      ) : (
+        <button
+          disabled
+          className="py-3 px-2 mt-6 bg-gray-300 cursor-not-allowed"
+        >
+          Pay
+        </button>
+      )}
+
+    
+    </div>
+  );
 };
 
 export default Subscription;

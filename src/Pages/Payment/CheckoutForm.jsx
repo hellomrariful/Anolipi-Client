@@ -1,7 +1,9 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
+import Swal from "sweetalert2";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const CheckoutForm = () => {
   const [error, setError] = useState("");
@@ -9,17 +11,48 @@ const CheckoutForm = () => {
   const [transactionId, setTransactionId] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-  const { user } = useContext(AuthContext);
-
   const axiosSecure = useAxiosSecure();
 
+  // const axiosPublic = useAxiosPublic()
+  //   const { data: users = [] } = useQuery({
+  //       queryKey: ["users"],
+  //       queryFn: async () => {
+  //         const res = await axiosPublic.get("/users");
+  //         console.log(res.data);
+  //         return res.data;
+  //       },
+  //     });
+
+  const { user } = useContext(AuthContext);
+
+  const price = 44000;
+const buyTimeInMinutes = 5;
+const currentTime = new Date();
+const buyTime = buyTimeInMinutes * 60 * 1000;
+
+// Corrected: Add buyTime to currentTime
+const expireTime = new Date(currentTime.getTime() + buyTime);
+
+// Extract hours, minutes, and seconds
+const hours = expireTime.getHours();
+const minutes = expireTime.getMinutes();
+const seconds = expireTime.getSeconds();
+
+// Convert hours, minutes, and seconds to milliseconds
+const expireTimeInMilliseconds = hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
+
+console.log(expireTimeInMilliseconds);
+
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    axiosSecure.post("/create-payment-intent", { price: 2000000000 }).then((res) => {
-      console.log(res.data.clientSecret);
-      setClientSecret(res.data.clientSecret);
-    });
-  }, [axiosSecure]);
+    if (price > 0) {
+      axiosSecure
+        .post("/create-payment-intent", { price: price })
+        .then((res) => {
+          console.log(res.data.clientSecret);
+          setClientSecret(res.data.clientSecret);
+        });
+    }
+  }, [axiosSecure, price]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,6 +99,28 @@ const CheckoutForm = () => {
       if (paymentIntent.status === "succeeded") {
         console.log("transaction id", paymentIntent.id);
         setTransactionId(paymentIntent.id);
+
+        // now save the payment in the database
+        const payment = {
+          email: user.email,
+          price: price,
+          transactionId: paymentIntent.id,
+          buyTime: buyTime,
+          expireTimeInMilliseconds,
+        };
+        console.log(payment);
+
+        const res = await axiosSecure.post("/payments", payment);
+        console.log(res);
+        if (res.data?.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Thank you for the taka paisa",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
       }
     }
   };
@@ -99,6 +154,7 @@ const CheckoutForm = () => {
       {transactionId && (
         <p className="text-green-600"> Your transaction id: {transactionId}</p>
       )}
+      <h1>Price: {price}</h1>
     </form>
   );
 };

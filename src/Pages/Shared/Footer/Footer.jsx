@@ -4,12 +4,12 @@ import { FaFacebook, FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="text-white">
+    <div className="mt-20 bg-gray-300">
       <div className="md:mt-20 mt-10">
         <footer className="bg-slate-300">
           <div className="container py-10 mx-auto">
             <div className="flex flex-col items-center text-center">
-              <Link to={'/'} className="flex items-center">
+              <Link to={"/"} className="flex items-center">
                 <img src={logo} className="h-12 mr-3" alt="" />
               </Link>
 
@@ -46,7 +46,11 @@ const Footer = () => {
 
               <div className="flex flex-col items-center sm:flex-row sm:justify-between">
                 <p className=" text-[#858585] dark:text-gray-300 ">
-                 <Link to={'/'}> <span className="font-heading">© Gadger 2023</span></Link>. All Rights Reserved.
+                  <Link to={"/"}>
+                    {" "}
+                    <span className="font-heading">© Anolipi 2023</span>
+                  </Link>
+                  . All Rights Reserved.
                 </p>
 
                 <div className="flex  -mx-2 md:mt-0 mt-3">

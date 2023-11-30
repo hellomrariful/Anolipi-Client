@@ -20,7 +20,6 @@ const Login = () => {
   const handelLogin = (e) => {
     e.preventDefault();
 
-
     const form = new FormData(e.currentTarget);
     const email = form.get("email");
     const password = form.get("password");
@@ -59,21 +58,18 @@ const Login = () => {
       });
   };
 
-
-
-
   const handelGoogleLogIn = (e) => {
     e.preventDefault();
     signUpWithGoogle()
       .then((result) => {
-       const userInfo = {
+        const userInfo = {
           email: result.user?.email,
           name: result.user?.displayName,
           photo: result.user?.photoURL,
-          premiumTaken: null,
+          premiumTaken: "null",
         };
-      
-        console.log(userInfo);      
+
+        console.log(userInfo);
         axiosPublic.post("/users", userInfo).then((res) => {
           console.log(res.data);
         });

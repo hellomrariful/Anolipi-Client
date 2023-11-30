@@ -101,7 +101,7 @@ const router = createBrowserRouter([
         path: "/payment",
         element: (
           <PrivateRoute>
-           <Payment></Payment>
+            <Payment></Payment>
           </PrivateRoute>
         ),
       },

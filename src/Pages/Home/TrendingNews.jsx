@@ -27,7 +27,7 @@ const TrendingNews = () => {
     .slice()
     .sort((a, b) => b.viewCount - a.viewCount);
 
-  console.log(sortedNews);
+  // console.log(sortedNews);
 
   const shortDescription = (description) => {
     const words = description.split(" ");
