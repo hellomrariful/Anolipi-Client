@@ -65,7 +65,7 @@ const Login = () => {
           email: result.user?.email,
           name: result.user?.displayName,
           photo: result.user?.photoURL,
-          premiumTaken: "null",
+          premiumTaken: null,
         };
 
         console.log(userInfo);

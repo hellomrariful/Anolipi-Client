@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { FaEye, FaRegClock } from "react-icons/fa";
 import { IconButton } from "@material-tailwind/react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
 import usePremium from "../../Hooks/usePremium";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const News = () => {
   const [search, setSearch] = useState("");
+  const [tags, setTags] = useState("");
   const [isPremium] = usePremium();
   const handelSearch = (e) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ const News = () => {
       return { result: [], total: 0 };
     }
     const res = await fetch(
-      `http://localhost:5000/articles?limit=10&offset=${pageParam}&search=${search}`
+      `http://localhost:5000/articles?limit=10&offset=${pageParam}&search=${search}&tags=${tags}`
     );
     const data = await res.json();
     return { ...data, prevOffset: pageParam };
@@ -52,21 +54,44 @@ const News = () => {
 
   const approveNewses = articles?.filter((item) => item.status === "Approve");
 
+  const handleOptionChange = (event) => {
+    setTags(event.target.value);
+    console.log(event.target.value);
+  };
+
   return (
     <div>
-      <form className="mt-20 mb-10" onSubmit={handelSearch}>
-        <input
-          className="bg-blue-gray-100 py-4"
-          type="text"
-          name="search"
-          id=""
-        />
-        <input
-          className="pl-5 py-4 px-5 rounded bg-black text-white ml-10"
-          type="submit"
-          value="Search"
-        />
-      </form>
+      <div className="flex justify-between mx-20 mb-10">
+        <div className="">
+          <select
+            name="tags"
+            className="input input-bordered w-full"
+            defaultValue="default"
+            onChange={handleOptionChange}
+          >
+            <option value="default" disabled>
+              Select Publisher
+            </option>
+            <option value="NajmulHasan">Najmul Hasan</option>
+            <option value="AnolipiDesk">Anolipi Desk</option>
+            <option value="ArifulIslam">Ariful Islam</option>
+            <option value="RakibulIslam">Rakibul Islam</option>
+          </select>
+        </div>
+        <form className="" onSubmit={handelSearch}>
+          <input
+            className="bg-blue-gray-100 py-3 px-10"
+            type="text"
+            name="search"
+            id=""
+          />
+          <input
+            className="pl-5 py-3 px-5 rounded bg-black text-white ml-10"
+            type="submit"
+            value="Search"
+          />
+        </form>
+      </div>
       <InfiniteScroll
         dataLength={articles ? articles.length : 0}
         next={() => fetchNextPage()}
@@ -174,17 +199,15 @@ const News = () => {
                   </p>
                 </div>
                 <div className="mx-4 mt-3 mb-4">
-                  {isPremium || article.isPremium === "Yes" ? (
-                    <Link to={`/newsDetails/${article._id}`}>
-                      <button
-                        disabled
-                        className="select-none cursor-pointer w-full rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        type="button"
-                        data-ripple-light="true"
-                      >
-                        Read More
-                      </button>
-                    </Link>
+                  {!article.isPremium === "Yes" ? (
+                    <button
+                      disabled={article.premiumTaken !== "Yes"}
+                      className="  select-none cursor-pointer w-full rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                      type="button"
+                      data-ripple-light="true"
+                    >
+                      <Link to={`/newsDetails/${article._id}`}>Read More</Link>
+                    </button>
                   ) : (
                     <Link to={`/newsDetails/${article._id}`}>
                       <button

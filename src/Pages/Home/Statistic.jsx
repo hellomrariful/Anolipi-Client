@@ -20,7 +20,7 @@ const Statistic = () => {
         console.log(premiumUsers.length);
 
         const normalUsers = res.data.filter(
-          (user) => user.premiumTaken === "null"
+          (user) => user.premiumTaken === null
         );
         console.log(normalUsers.length);
 

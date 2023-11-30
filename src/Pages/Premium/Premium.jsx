@@ -100,7 +100,7 @@ const Premium = () => {
             </div>
             <div className="flex items-center mt-1 gap-1 text-slate-400">
               <FaEye></FaEye>
-              1.1M
+              {news.viewCount || 0}M
             </div>
           </div>
 

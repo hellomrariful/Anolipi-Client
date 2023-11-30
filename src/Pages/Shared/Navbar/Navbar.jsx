@@ -4,7 +4,6 @@ import logo from "../../../assets/Anolipi-Logo.webp";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import "./Navbar.css";
 import useAdmin from "../../../Hooks/useAdmin";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import usePremium from "../../../Hooks/usePremium";
 
 const Navbar = () => {

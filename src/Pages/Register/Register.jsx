@@ -52,7 +52,7 @@ const Register = () => {
             name: name,
             email: email,
             photo: photo,
-            premiumTaken: "null"
+            premiumTaken: null
           };
 
           axiosPublic.post("/users", userInfo).then((res) => {
@@ -105,7 +105,7 @@ const Register = () => {
             email: result.user?.email,
             name: result.user?.displayName,
             photo: result.user?.photoURL,
-            premiumTaken: "null"
+            premiumTaken: null
         }
         axiosPublic.post('/users', userInfo)
         .then(res => {
