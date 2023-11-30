@@ -2,11 +2,10 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { FaEye, FaRegClock } from "react-icons/fa";
 import { IconButton } from "@material-tailwind/react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
 import usePremium from "../../Hooks/usePremium";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const News = () => {
   const [search, setSearch] = useState("");

@@ -35,7 +35,7 @@ const Users = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const allUser = Array.from({ length: users.length }, (_, i) => i + 1);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
