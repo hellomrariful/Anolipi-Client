@@ -23,7 +23,7 @@ const News = () => {
       return { result: [], total: 0 };
     }
     const res = await fetch(
-      `http://localhost:5000/articles?limit=10&offset=${pageParam}&search=${search}&tags=${tags}`
+      `https://anolipi-server.vercel.app/articles?limit=10&offset=${pageParam}&search=${search}&tags=${tags}`
     );
     const data = await res.json();
     return { ...data, prevOffset: pageParam };
