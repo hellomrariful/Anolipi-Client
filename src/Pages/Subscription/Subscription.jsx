@@ -10,8 +10,6 @@ const Subscription = () => {
   const { user } = useContext(AuthContext);
   const [selectedValue, setSelectedValue] = useState(null);
 
- 
-
   const handleSelectChange = async (value) => {
     const email = user.email;
 

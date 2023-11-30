@@ -1,9 +1,9 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-
 import Swal from "sweetalert2";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = () => {
   const [error, setError] = useState("");
@@ -12,36 +12,36 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
-
-  // const axiosPublic = useAxiosPublic()
-  //   const { data: users = [] } = useQuery({
-  //       queryKey: ["users"],
-  //       queryFn: async () => {
-  //         const res = await axiosPublic.get("/users");
-  //         console.log(res.data);
-  //         return res.data;
-  //       },
-  //     });
+  const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
 
-  const price = 44000;
-const buyTimeInMinutes = 5;
-const currentTime = new Date();
-const buyTime = buyTimeInMinutes * 60 * 1000;
+  const price = 20;
+  const buyTimeInMinutes = 2;
+  const currentTime = new Date();
+  const buyTime = buyTimeInMinutes * 60 * 1000;
 
-// Corrected: Add buyTime to currentTime
-const expireTime = new Date(currentTime.getTime() + buyTime);
+  // Corrected: Add buyTime to currentTime
+  const expireTime = new Date(currentTime.getTime() + buyTime);
 
-// Extract hours, minutes, and seconds
-const hours = expireTime.getHours();
-const minutes = expireTime.getMinutes();
-const seconds = expireTime.getSeconds();
+  // Extract hours, minutes, and seconds
+  const hours = expireTime.getHours();
+  const minutes = expireTime.getMinutes();
+  const seconds = expireTime.getSeconds();
 
-// Convert hours, minutes, and seconds to milliseconds
-const expireTimeInMilliseconds = hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
+  // Convert hours, minutes, and seconds to milliseconds
+  const expireTimeInMilliseconds =
+    hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
 
-console.log(expireTimeInMilliseconds);
+  console.log(expireTimeInMilliseconds);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const res = axiosSecure.patch(`/users/null/${user.email}`).then(res);
+    }, expireTimeInMilliseconds);
+
+    return () => clearTimeout(timer);
+  }, [expireTimeInMilliseconds, user.email, axiosSecure]);
 
   useEffect(() => {
     if (price > 0) {
@@ -116,10 +116,12 @@ console.log(expireTimeInMilliseconds);
           Swal.fire({
             position: "top-end",
             icon: "success",
-            title: "Thank you for the taka paisa",
+            title: "Congratulation! Payment Successfully Done",
             showConfirmButton: false,
             timer: 1500,
           });
+          navigate("/");
+          const res = await axiosSecure.patch(`/users/${user.email}`).then(res);
         }
       }
     }
@@ -154,7 +156,6 @@ console.log(expireTimeInMilliseconds);
       {transactionId && (
         <p className="text-green-600"> Your transaction id: {transactionId}</p>
       )}
-      <h1>Price: {price}</h1>
     </form>
   );
 };

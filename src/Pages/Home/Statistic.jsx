@@ -5,21 +5,36 @@ import CountUp from "react-countup";
 const Statistic = () => {
   const axiosPublic = useAxiosPublic();
 
-  const { data: users = [] } = useQuery({
+  const {
+    data: { users = [], premiumUserCount = 0, normalUserCount = 0 } = {},
+  } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/users");
-      console.log(users);
-      return res.data;
+      try {
+        const res = await axiosPublic.get("/users");
+
+        // Assuming the response data has a property like 'isPremium'
+        const premiumUsers = res.data.filter(
+          (user) => user.premiumTaken === "Yes"
+        );
+        console.log(premiumUsers.length);
+
+        const normalUsers = res.data.filter(
+          (user) => user.premiumTaken === "null"
+        );
+        console.log(normalUsers.length);
+
+        return {
+          users: res.data,
+          premiumUserCount: premiumUsers.length,
+          normalUserCount: normalUsers.length,
+        };
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+      }
     },
   });
-
-  // const premiumMember = users?.filter((item) => item.premiumTaken === "null");
-
-
-
-
-
 
   return (
     <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
@@ -39,11 +54,11 @@ const Statistic = () => {
         </div>
         <div className="text-center">
           <h6 className="text-5xl font-bold text-deep-purple-accent-400">
-            <CountUp start={0} end={users.length} duration={11}>
+            <CountUp start={0} end={normalUserCount} duration={11}>
               {({ countUpRef }) => (
                 <div className="flex ml-24">
                   <span ref={countUpRef} />
-                  <h1>K</h1>
+                  <h1>M</h1>
                 </div>
               )}
             </CountUp>
@@ -52,11 +67,11 @@ const Statistic = () => {
         </div>
         <div className="text-center">
           <h6 className="text-5xl font-bold text-deep-purple-accent-400">
-            <CountUp start={0} end={users.length} duration={12}>
+            <CountUp start={0} end={premiumUserCount} duration={12}>
               {({ countUpRef }) => (
                 <div className="flex ml-24">
                   <span ref={countUpRef} />
-                  <h1>K</h1>
+                  <h1>M</h1>
                 </div>
               )}
             </CountUp>

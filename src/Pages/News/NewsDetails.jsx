@@ -30,9 +30,6 @@ const NewsDetails = () => {
 
   useEffect(() =>{
     axiosPublic.patch(`/newses/viewCount/${id}`, viewCount)
-    .then(res =>{
-      console.log(res.data);
-    })
   },[axiosPublic, id])
 
 

@@ -115,9 +115,9 @@ const MyNews = ({ declineText }) => {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full me-2">
-                      {news.isPremium === "Yes" ? (
-                        <span className="text-green-500">Yes</span>
+                    <div className=" rounded-full me-2">
+                      {news.status === "Approve" ? (
+                        <span className="text-green-500">Approve</span>
                       ) : (
                         <div>
                           <Popover
@@ -129,7 +129,7 @@ const MyNews = ({ declineText }) => {
                             <PopoverHandler>
                               <Button>See </Button>
                             </PopoverHandler>
-                            <PopoverContent>{news.declineText}</PopoverContent>
+                            <PopoverContent>{news.declineText}No Feedback Provide</PopoverContent>
                           </Popover>
                         </div>
                       )}

@@ -4,10 +4,13 @@ import logo from "../../../assets/Anolipi-Logo.webp";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import "./Navbar.css";
 import useAdmin from "../../../Hooks/useAdmin";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import usePremium from "../../../Hooks/usePremium";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isAdmin] = useAdmin();
+  const [isPremium] = usePremium();
   const navigate = useNavigate();
 
   const handelSignOut = async () => {
@@ -38,7 +41,7 @@ const Navbar = () => {
       <NavLink to="/news">News</NavLink>
 
       {user ? <NavLink to="/subscription">Subscription</NavLink> : null}
-      {user ? <NavLink to="/premium">Premium</NavLink> : null}
+      {user && isPremium ? <NavLink to="/premium">Premium</NavLink> : null}
       {user ? null : <NavLink to="/register">Register</NavLink>}
       {user && isAdmin ? <NavLink to="/dashboard">Dashboard</NavLink> : null}
     </nav>
