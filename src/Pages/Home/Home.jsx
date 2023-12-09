@@ -7,6 +7,7 @@ import Subscribe from "./Subscribe";
 import TrendingNews from "./TrendingNews";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import Modal from "./Modal";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -20,7 +21,7 @@ const Home = () => {
       <Plans />
       <DownloadApp />
       <Subscribe />
-      {/* <Modal></Modal> */}
+      <Modal></Modal>
     </div>
   );
 };
