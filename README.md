@@ -21,7 +21,6 @@ Live URL: [https://Anolipi.web.app/](https://Anolipi.web.app/)
 - Also user can filter the article tags. If wanna explore this site, you need must logged In. If user logged, then He/She see all feature easily.
 
 </details>
-<br>
 
 <details>
 
