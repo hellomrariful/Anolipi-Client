@@ -1,43 +1,79 @@
-# Anolipi
+# Anolipi | A Online News Portal
 
-## [ Anolipi Live Link](https://Anolipi.web.app/)
+## Description
+Anolipi is a Full stack Online public demand news portal based in MERN(MongoDB, Express.js, React.js, Node.js) project. In this projects, User can publish his/her article. Also user can read premium content by subscribe. User can pay by stripe payment method. Anolipi has 3 role of user, 1.Admin, 2.Normal User, 3.Premium User. Anolipi is built in a way that has all the features of a standard online news site.
+## Live Link
 
-Live URL: [https://Anolipi.web.app/](https://Anolipi.web.app/)
+   [Anolipi Live](https://Anolipi.web.app/)
 
-<details>
+## Server Side
 
-<summary style="font-weight: bold; text:2xl" >Description of Anolipi</summary>
+  [Anolipi Server Code](https://github.com/hellomrariful/Anolipi-Server)
 
-Anolipi is a Online public demand news portal. In this projects, User can publish his/her article. Also user can read premium content by subscribe. User can pay by stripe payment method. Anolipi has 3 role of user, 1.Admin, 2.Normal User, 3.Premium User. Anolipi is built in a way that has all the features of a standard online news site.
 
-</details>
+## Anolipi Homepage
 
-<details>
-<summary style="font-weight: bold; text:2xl" >Key Features of Anolipi</summary>
+![Home Page of Anolipi](/public/3-devices-white.png)
 
-- This project is developed for publish diffent type Articles.
+## Key Features
 
-- In this project, You can also publish your article and we pay you for your article.
+- **Functionality**
+  - User can submit his/her article.
+  - User can buy subscription.
+  - User can search by publisher, title.
+  - Trending news in home page.
+  - Implement react infinite scroll on news page
+  - Advertising Banner in home page and many more.
 
-- Also This Project allows add publisher by admin.
-- User can publish his/her article.
-- User can buy subscription.
-- User can search by tags, publisher, title.
-- Admin can make article premium, decline, approve, delete etc.
-- When users logged in then user can access detailed information about each Articles, and also user can subscribe for premium content.
 
-- Also user can filter the article tags. If wanna explore this site, you need must logged In. If user logged, then He/She see all feature easily.
+- **User Role(Dashboard)**
+  - Update profile information such as name, photo.
+  - View article status, like pending, approve, premium and decline feedback etc.
+  - Update decline articles and normal articles also.
+  - Also delete article
 
-</details>
+- **Admin Role(Dashboard)**
+   - Make article premium, decline, decline feedback, approve, delete etc.
+   - Add publisher.
+   - Add Admin.
+   - See different kind of statics, like publisher publish article count chart, News count chart and user count chart.
 
-<details>
+- **Authentication:**
+  - Gmail and Email/Password authentication system.
+  - Implement JWT(Json Web Token) with private route.
+  - As a full stack web also protected admin route.
 
-<summary style="font-weight: bold; text:2xl" >Technologies Used In Anolipi</summary>
 
-- **Frontend:** JavaScript, React.js, Tailwind CSS and Material Tailwind.
-- **Backend:** Node.js, Express.js.
-- **Database:** MongoDB.
-- **Authentication:** Firebase Authentication with JWT.
+- **Payment System:**
+  - Seamless completion of purchases with the integrated Stripe payment system.
+  - Confirm personal information and address details during the checkout process.
+
+- **Responsive Design:**
+  - Enjoy a seamless experience across various devices.
+
+## Technologies Used
+
+ - **Frontend:** JavaScript, React.js, Tailwind CSS and Material Tailwind.
+ - **Backend:** Node.js, Express.js.
+ - **Database:** MongoDB.
+ - **Authentication:** Firebase Authentication with JWT.
 - **Host:** Firebase.
 
-</details>
+## Admin Credentials
+- **Username:** admin@anolipi.com
+- **Password:** Ano##21
+
+## Challenges
+- One of the most hardest challenge in this project was to implement subscription method. which is if user's subscription duration transcend then premium user will be convert normal user.
+
+## Technologies Used
+- MERN Stack (MongoDB, Express.js, React.js, Node.js)
+- Firebase Authentication (Email, Password, Google sign in and sign up)
+- Stripe Payment Integration
+- Responsive for Tailwind CSS.
+
+## How to Run Locally
+1. Clone the repository.
+2. Install dependencies using `npm install`.
+3. Configure environment variables for MongoDB, Firebase, and Stripe.
+4. Run the development server using `npm run dev`.

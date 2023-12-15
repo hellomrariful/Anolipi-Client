@@ -8,6 +8,7 @@ import TrendingNews from "./TrendingNews";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Modal from "./Modal";
+import MessengerCustomerChat from "react-messenger-customer-chat";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -22,6 +23,12 @@ const Home = () => {
       <DownloadApp />
       <Subscribe />
       <Modal></Modal>
+      <div className="App">
+        <MessengerCustomerChat
+          pageId="109810151659600"
+          appId="727980532201110"
+        />
+      </div>
     </div>
   );
 };
