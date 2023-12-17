@@ -34,7 +34,7 @@ const Subscription = () => {
 
       <div className="w-72 mt-20 text-center">
         <Select onChange={handleSelectChange} placeholder="Select Version">
-          <Option value="1 Minuit $20">1 minute $20</Option>
+          <Option value="1 Minuit $20">1 Hour $20</Option>
           <Option value="1 Day $100">1 Day $100</Option>
           <Option value="10 Days $200">10 Days $200</Option>
         </Select>
