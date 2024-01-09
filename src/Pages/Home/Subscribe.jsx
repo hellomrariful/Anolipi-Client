@@ -25,7 +25,7 @@ const Subscribe = () => {
           />
           <button
             type="button"
-            className="w-2/5 p-3 font-semibold rounded-r-lg sm:w-1/3 bg-gray-700 dark:text-gray-900"
+            className="w-2/5 p-3 font-semibold rounded-r-lg sm:w-1/3 bg-[#334074] dark:text-gray-900"
           >
             Subscribe
           </button>

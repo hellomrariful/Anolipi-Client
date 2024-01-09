@@ -51,8 +51,6 @@ const Subscription = () => {
           Pay
         </button>
       )}
-
-    
     </div>
   );
 };

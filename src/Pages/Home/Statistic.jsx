@@ -13,7 +13,6 @@ const Statistic = () => {
       try {
         const res = await axiosPublic.get("/users");
 
-        // Assuming the response data has a property like 'isPremium'
         const premiumUsers = res.data.filter(
           (user) => user.premiumTaken === "Yes"
         );
