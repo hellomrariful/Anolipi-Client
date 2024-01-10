@@ -87,13 +87,13 @@ const News = () => {
 
         <form className="" onSubmit={handelSearch}>
           <input
-            className="bg-blue-gray-100 py-3 px-10"
+            className="bg-gray-200 py-3 px-10"
             type="text"
             name="search"
             id=""
           />
           <input
-            className="pl-5 py-3 px-5 rounded bg-black text-white ml-10"
+            className="pl-5 py-3 px-5 rounded bg-[#334074] text-white ml-10"
             type="submit"
             value="Search"
           />

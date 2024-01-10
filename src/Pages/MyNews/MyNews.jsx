@@ -129,7 +129,9 @@ const MyNews = ({ declineText }) => {
                             <PopoverHandler>
                               <Button>See </Button>
                             </PopoverHandler>
-                            <PopoverContent>{news.declineText}No Feedback Provide</PopoverContent>
+                            <PopoverContent>
+                              {news.declineText}No Feedback Provide
+                            </PopoverContent>
                           </Popover>
                         </div>
                       )}
