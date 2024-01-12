@@ -64,7 +64,7 @@ const Modal = () => {
                               <span className="text-black font-extrabold">
                                 Black
                               </span>{" "}
-                              <span className=" text-blue-700 font-extrabold">
+                              <span className=" text-[#334074] font-extrabold">
                                 Friday
                               </span>{" "}
                               Article Deals!
@@ -78,7 +78,7 @@ const Modal = () => {
                             />
                           </div>
                           <div className="mt-2 -mb-3">
-                            <p className=" text-gray-500">
+                            <p className=" text-gray-500 text-center">
                               This Black Friday, elevate your reading experience
                               with our exclusive premium articles. Uncover a
                               world of knowledge that's worth every penny.
@@ -93,7 +93,7 @@ const Modal = () => {
                       <Link to={"/subscription"}>
                         <button
                           type="button"
-                          className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                          className="inline-flex w-full justify-center rounded-md bg-[#334074] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                           onClick={() => setOpen(false)}
                         >
                           Buy Now
