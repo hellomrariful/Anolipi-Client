@@ -5,12 +5,13 @@ import { AuthContext } from "../Providers/AuthProvider";
 import useAdmin from "../Hooks/useAdmin";
 
 const AdminRoute = ({ children }) => {
-    const {user, loading} = useContext(AuthContext)
-    const [isAdmin, isAdminLoading] = useAdmin();
-    const location = useLocation();
+  const { user, loading } = useContext(AuthContext);
+  const [isAdmin, isAdminLoading] = useAdmin();
+  const location = useLocation();
 
-    if (loading || isAdminLoading) {
-        return  <div className="flex justify-center items-center h-screen">
+  if (loading || isAdminLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
         <Oval
           height={50}
           width={50}
@@ -24,14 +25,14 @@ const AdminRoute = ({ children }) => {
           strokeWidthSecondary={2}
         />
       </div>
-    }
+    );
+  }
 
-    if (user && isAdmin) {
-        return children;
-    }
+  if (user && isAdmin) {
+    return children;
+  }
 
-    return <Navigate to="/" state={{ from: location }} replace></Navigate>
-
+  return <Navigate to="/" state={{ from: location }} replace></Navigate>;
 };
 
 export default AdminRoute;

@@ -13,7 +13,7 @@ const usePremium = () => {
       // console.log("asking or checking is admin", user);
       const res = await axiosSecure.get(`/users/premium/${user.email}`);
       // console.log(res.data);
-      return res.data.premium
+      return res.data.premium;
     },
   });
   return [isPremium, isPremiumLoading];
