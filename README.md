@@ -66,12 +66,6 @@ Anolipi is a Full stack Online public demand news portal based in MERN(MongoDB, 
 ## Challenges
 - One of the most hardest challenge in this project was to implement subscription method. which is if user's subscription duration transcend then premium user will be convert normal user.
 
-## Technologies Used
-- MERN Stack (MongoDB, Express.js, React.js, Node.js)
-- Firebase Authentication (Email, Password, Google sign in and sign up)
-- Stripe Payment Integration
-- Responsive for Tailwind CSS.
-
 ## How to Run Locally
 1. Clone the repository.
 2. Install dependencies using `npm install`.
