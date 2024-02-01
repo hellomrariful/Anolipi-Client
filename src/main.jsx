@@ -22,6 +22,9 @@ import Premium from "./Pages/Premium/Premium";
 import UpdateNews from "./Pages/MyNews/UpdateNews";
 import News from "./Pages/News/News";
 import NewsDetails from "./Pages/News/NewsDetails";
+import ReactGA from "react-ga4";
+
+ReactGA.initialize("G-P4EHS5DJ4C");
 
 const router = createBrowserRouter([
   {
