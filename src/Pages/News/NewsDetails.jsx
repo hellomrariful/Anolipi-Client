@@ -23,16 +23,13 @@ const NewsDetails = () => {
   const approveNews = approveNewses.filter((item) => item._id === id);
   console.log(approveNews);
 
-
   const count = 1;
-  const viewCount = {count}
+  const viewCount = { count };
   console.log(viewCount);
 
-  useEffect(() =>{
-    axiosPublic.patch(`/newses/viewCount/${id}`, viewCount)
-  },[axiosPublic, id])
-
-
+  useEffect(() => {
+    axiosPublic.patch(`/newses/viewCount/${id}`, viewCount);
+  }, [axiosPublic, id]);
 
   return (
     <div>
@@ -70,7 +67,7 @@ const NewsDetails = () => {
               </div>
               <div className="flex items-center mt-1 gap-1 text-slate-400">
                 <FaEye></FaEye>
-                {news.viewCount | 0} M 
+                {news.viewCount | 0} M
               </div>
             </div>
             <h3>{news.description}</h3>
